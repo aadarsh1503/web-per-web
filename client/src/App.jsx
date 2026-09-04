@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAccounts, addAccount, deleteAccount, preparePhoneLogin, activateAccount, switchAccount } from './api';
+import API_URL from './config';
 import './App.css';
 
 const STATUS_COLORS = {
@@ -61,9 +62,7 @@ export default function App() {
     setError('');
     try {
       const { data } = await preparePhoneLogin(account._id);
-      const backendUrl = import.meta.env.VITE_API_URL
-        ? import.meta.env.VITE_API_URL.replace(/\/api$/, '')
-        : `http://${window.location.hostname}:5000`;
+      const backendUrl = API_URL.replace(/\/api$/, '');
       const formUrl = `${backendUrl}/api/phone-login/form/${data.token}`;
       window.open(formUrl, '_blank');
       setLoginModal(account);
