@@ -1,6 +1,8 @@
 {
-  "env": {
-    "VITE_API_URL": "https://web-per-web.onrender.com/api"
+  "build": {
+    "env": {
+      "VITE_API_URL": "https://web-per-web.onrender.com/api"
+    }
   },
   "rewrites": [
     { "source": "/(.*)", "destination": "/" }
