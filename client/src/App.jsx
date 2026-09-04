@@ -28,9 +28,10 @@ export default function App() {
   const fetchAccounts = async () => {
     try {
       const { data } = await getAccounts();
-      setAccounts(data);
+      setAccounts(Array.isArray(data) ? data : []);
     } catch {
-      setError('Failed to load accounts');
+      setError('Failed to load accounts. Check backend URL.');
+      setAccounts([]);
     } finally {
       setLoading(false);
     }
