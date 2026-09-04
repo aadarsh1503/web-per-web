@@ -15,6 +15,12 @@ app.use(cors({
 }));
 app.options('*', cors());
 
+// Log every incoming request
+app.use((req, _res, next) => {
+  console.log(`[SERVER] ${req.method} ${req.url} | Origin: ${req.headers.origin || 'none'}`);
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -1,10 +1,29 @@
 import axios from 'axios';
 
-// Use VITE_API_URL env var on production (Render backend URL)
-// Falls back to relative /api for local dev with proxy
 const BASE = import.meta.env.VITE_API_URL || '/api';
 
+console.log('[API] VITE_API_URL:', import.meta.env.VITE_API_URL);
+console.log('[API] Using BASE:', BASE);
+
 const api = axios.create({ baseURL: BASE });
+
+// Log every request
+api.interceptors.request.use((config) => {
+  console.log(`[API] ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
+  return config;
+});
+
+// Log every response / error
+api.interceptors.response.use(
+  (res) => {
+    console.log(`[API] ${res.status} ${res.config.url}`, res.data);
+    return res;
+  },
+  (err) => {
+    console.error(`[API] ERROR ${err.response?.status} ${err.config?.url}`, err.response?.data);
+    return Promise.reject(err);
+  }
+);
 
 export const getAccounts = () => api.get('/accounts');
 export const addAccount = (data) => api.post('/accounts', data);
